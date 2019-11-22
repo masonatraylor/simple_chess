@@ -40,6 +40,7 @@ gem 'font_awesome5_rails', '~> 0.9.0'
 gem 'jquery-rails', '~> 4.3.5'
 gem 'popper_js', '~> 1.14.5'
 gem 'simple_form', '~> 5.0.1'
+gem 'rubocop', '~> 0.76.0', require: false
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.3.3'
