@@ -3,5 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe Bishop, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context 'is created' do
+    it 'can be saved' do
+      piece = Bishop.new
+      game = build(:game)
+      game.pieces << piece
+      expect(piece.save).to be true
+    end
+  end
 end

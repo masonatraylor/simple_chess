@@ -3,10 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe Queen, type: :model do
-  context 'queen is created' do
+  context 'is created' do
     it 'can be saved' do
-      queen = Queen.new
-      expect(queen.save).to be true
+      piece = Queen.new
+      game = build(:game)
+      game.pieces << piece
+      expect(piece.save).to be true
     end
   end
 end
