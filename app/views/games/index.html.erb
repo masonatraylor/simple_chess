@@ -1,10 +1,11 @@
-<h1>Simple Chess</h1>
-<p>Font Awesome commit
-    <%= fa_icon('chess') %>
-    <%= fa_icon('chess-king') %>
-    <%= fa_icon('chess-queen') %>
-    <%= fa_icon('chess-rook') %>
-    <%= fa_icon('chess-bishop') %>
-    <%= fa_icon('chess-knight') %>
-    <%= fa_icon('chess-pawn') %>
+<h1><%= fa_icon('chess', class:'fa-flip-horizontal') %> Simple Chess <%= fa_icon('chess') %></h1>
+<p>
+    <h3>Games:</h3>
+    <ul class='list-unstyled'>
+        <% @games.each do |game| %>
+            <li>
+                <%= link_to game.name, game %>
+            </li>
+        <% end %>
+    </ul>
 </p>
