@@ -1,1 +1,11 @@
 <h1>Game <%= @game.name %></h1>
+
+<div class='chess-grid mx-auto mt-5'>
+  <% (0..7).each do |row| %>
+    <% (0..7).each do |col| %>
+      <div class='<%= (row + col).even? ? 'white' : 'black' %>'>
+
+      </div>
+    <% end %>
+  <% end %>
+</div>

@@ -16,3 +16,23 @@
 
  @import "bootstrap";
  @import "font_awesome5_webfont";
+
+.chess-grid {
+  border: 2px solid gray;
+  border-radius: 2px;
+  display: grid;
+  grid-template: repeat(8, 12.5fr) / repeat(8, 12.5fr);
+  height: 500px;
+  width: 500px;
+}
+
+ .chess-square {
+ }
+
+ .black {
+  background-color: gray;
+}
+
+.white {
+  background-color: white;
+}

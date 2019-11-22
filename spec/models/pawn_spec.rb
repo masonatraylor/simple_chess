@@ -3,10 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe Pawn, type: :model do
-  context 'pawn is created' do
+  context 'is created' do
     it 'can be saved' do
-      pawn = Pawn.new
-      expect(pawn.save).to be true
+      piece = Pawn.new
+      game = build(:game)
+      game.pieces << piece
+      expect(piece.save).to be true
     end
   end
 end
