@@ -1,0 +1,50 @@
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+    - 'bin/*'
+
+Metrics/LineLength:
+  AutoCorrect: true
+  IgnoredPatterns: ['\A*#']
+
+Style/Documentation:
+  Enabled: false
+
+Layout/AlignArray:
+  Enabled: true
+
+Layout/AlignHash:
+  Enabled: true
+
+Layout/AlignParameters:
+  Enabled: true
+
+Layout/ClosingParenthesisIndentation:
+  Enabled: true
+
+Layout/IndentFirstArgument:
+  Enabled: true
+
+Layout/IndentFirstArrayElement:
+  Enabled: true
+
+Layout/IndentFirstHashElement:
+  Enabled: true
+
+Layout/IndentFirstParameter:
+  Enabled: true
+
+Layout/MultilineArrayLineBreaks:
+  Enabled: true
+
+Layout/MultilineHashBraceLayout:
+  Enabled: true
+
+Layout/MultilineHashKeyLineBreaks:
+  Enabled: true
+
+Layout/MultilineMethodArgumentLineBreaks:
+  Enabled: true
+

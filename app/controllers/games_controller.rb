@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GamesController < ApplicationController
   def new
     @game = Game.new
@@ -12,11 +14,11 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
   end
 
-  def index
-  end
+  def index; end
 
   private
-    def game_params
-      params.require(:game).permit(:name)
-    end
+
+  def game_params
+    params.require(:game).permit(:name)
+  end
 end
