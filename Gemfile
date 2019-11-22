@@ -34,9 +34,12 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 # No comment
-gem 'jquery-rails'
-gem 'popper_js', '~> 1.11.1'
-gem 'bootstrap', '4.0.0.alpha6'
+gem 'bootstrap', '~> 4.3.1'
+gem 'devise', '~> 4.7.1'
+gem 'font_awesome5_rails', '~> 0.9.0'
+gem 'jquery-rails', '~> 4.3.5'
+gem 'popper_js', '~> 1.14.5'
+gem 'simple_form', '~> 5.0.1'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.3.3'
