@@ -15,7 +15,7 @@ class GamesController < ApplicationController
   end
 
   def index
-    @games = Game.all
+    @games = Game.available
   end
 
   private
