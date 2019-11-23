@@ -3,5 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context 'instantiation checks' do
+    it 'can be instantiated' do
+      user = build(:user)
+      expect(user.valid?).to be true
+    end
+  end
 end

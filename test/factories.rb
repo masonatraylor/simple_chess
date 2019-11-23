@@ -8,6 +8,7 @@ end
 
 FactoryBot.define do
   factory :game do
+    name { 'test '}
     user { build(:user) }
   end
 end

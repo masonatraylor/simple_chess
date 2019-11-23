@@ -12,27 +12,29 @@
  *
  *= require_tree .
  *= require_self
- */
+*/
 
- @import "bootstrap";
- @import "font_awesome5_webfont";
+@import "bootstrap";
+@import "font_awesome5_webfont";
 
+// Misc styling
+.easy-col-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+// Chess board styles
+.black {
+  background-color: gray;
+}
 .chess-grid {
   border: 2px solid gray;
   border-radius: 2px;
   display: grid;
-  grid-template: repeat(8, 12.5fr) / repeat(8, 12.5fr);
+  grid-template: repeat(8, 1fr) / repeat(8, 1fr);
   height: 500px;
   width: 500px;
 }
-
- .chess-square {
- }
-
- .black {
-  background-color: gray;
-}
-
 .white {
   background-color: white;
 }
