@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-md navbar-light" style="background-color: #80b7f5;">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <%= link_to 'Home', root_path, class:'nav-link' %>
+            </li>
+            <li class="nav-item">
+              <a href='<%= new_game_path %>' class='nav-link'>New Game <%= fa_icon('plus-circle') %></a>  
+            </li>
+        </ul>
+    </div>
+    <div class="mx-auto order-0">
+        <a href="<%= root_path %>" class='navbar-brand mx-auto'>
+          <%= fa_icon('chess', class:'fa-flip-horizontal') %>Simple Chess<%= fa_icon('chess') %>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+          <% if user_signed_in? %>
+            <li class="nav-item">
+              <%= link_to 'Sign out', destroy_user_session_path, method: :delete, class:'nav-link' %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to 'Sign in', new_user_session_path, class:'nav-link' %>
+            </li>
+            <li class="nav-item">
+                <%= link_to 'Sign up', new_user_registration_path, class:'nav-link' %>
+            </li>
+          <% end %>
+        </ul>
+    </div>
+</nav>

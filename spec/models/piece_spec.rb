@@ -18,7 +18,7 @@ RSpec.describe Piece, type: :model do
     end
   end
 
-  it 'can detect horizontal obstructions' do
+  it 'can detect vertical obstructions' do
     game = build(:game)
     piece = create_piece_at_coord(game, 4, 4)
 
