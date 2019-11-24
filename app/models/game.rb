@@ -12,8 +12,8 @@ class Game < ApplicationRecord
     raise 'Need both players' unless white_player_id && black_player_id
     raise 'Game already populated' unless pieces.empty?
 
-    populate(white_player_id, (0..7).to_a, [0, 1])
-    populate(black_player_id, (0..7).to_a.reverse, [7, 6])
+    populate(white_player_id, (0..7).to_a.reverse, [7, 6])
+    populate(black_player_id, (0..7).to_a, [0, 1])
   end
 
   private

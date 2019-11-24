@@ -25,15 +25,27 @@
 
 // Chess board styles
 .black {
-  background-color: gray;
+  background-color: #666;
 }
 .chess-grid {
-  border: 2px solid gray;
+  border: 2px solid #666;
   border-radius: 2px;
   display: grid;
+  font-size: 2.5rem;
   grid-template: repeat(8, 1fr) / repeat(8, 1fr);
   height: 500px;
   width: 500px;
+}
+.piece-white {
+  color: #aaa;
+}
+.piece-black {
+  color: #000;
+}
+.square {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 .white {
   background-color: white;
