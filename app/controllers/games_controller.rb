@@ -10,15 +10,9 @@ class GamesController < ApplicationController
   def create
     @game = Game.new(game_params)
     current_user.games << @game
-    if params[:color] == 'black'
-      @game.black_player_id = current_user.id
-    else
-      @game.white_player_id = current_user.id
-    end
-    if @game.valid?
-      @game.save
-      return redirect_to @game
-    end
+    join(@game, params[:join])
+    return redirect_to @game if @game.save
+
     render :new
   end
 
@@ -30,11 +24,16 @@ class GamesController < ApplicationController
 
   def join(game, color = 'black')
     if color == 'black'
-      game.black_player_id ||= current_user.id
+      return if game.black_player_id
+
+      game.black_player_id = current_user.id
     else
-      game.white_player_id ||= current_user.id
+      return if game.white_player_id
+
+      game.white_player_id = current_user.id
     end
-    game.save
+
+    game.populate! if game.white_player_id && game.black_player_id
   end
 
   def show

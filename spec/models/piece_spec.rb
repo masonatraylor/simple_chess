@@ -73,7 +73,7 @@ RSpec.describe Piece, type: :model do
       end
     end
 
-    piece = game.pieces.where(x_position:4, y_position:4).take
+    piece = game.pieces.where(x_position: 4, y_position: 4).take
 
     expect(piece.obstructed_by(6, 1)).to be nil
     expect(piece.obstructed_by(6, 2)).not_to be nil
