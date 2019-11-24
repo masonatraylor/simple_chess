@@ -20,6 +20,14 @@ class Piece < ApplicationRecord
     'white' if player_id == game.white_player_id
   end
 
+  def valid_move?(xpos, ypos)
+    valid_moves.include?([xpos, ypos])
+  end
+
+  def valid_moves
+    []
+  end
+
   private
 
   def valid_coords_for_obstruction?(xpos, ypos)

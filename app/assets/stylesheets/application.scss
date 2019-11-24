@@ -22,10 +22,17 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
+.full-size {
+  height: 100%;
+  width: 100%;
+}
 
 // Chess board styles
 .black {
   background-color: #666;
+}
+.square.blueish {
+  background-color: rgba(153, 153, 255, 0.5);
 }
 .chess-grid {
   border: 2px solid #666;
@@ -46,6 +53,9 @@
   align-items: center;
   display: flex;
   justify-content: center;
+}
+.square.reddish {
+  background-color: rgba(255, 170, 170, 0.5);
 }
 .white {
   background-color: white;
