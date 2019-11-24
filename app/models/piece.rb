@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class Piece < ApplicationRecord
+  include PiecesHelper
   belongs_to :game
 
   def obstructed_by(xpos, ypos)
-    return nil unless valid_coords?(xpos, ypos)
+    return nil unless valid_coords_for_obstruction?(xpos, ypos)
 
     piece_blocking(xpos, ypos)
   end
@@ -13,9 +14,15 @@ class Piece < ApplicationRecord
     x_position == xpos && y_position == ypos
   end
 
+  def color
+    return 'black' if player_id == game.black_player_id
+
+    'white' if player_id == game.white_player_id
+  end
+
   private
 
-  def valid_coords?(xpos, ypos)
+  def valid_coords_for_obstruction?(xpos, ypos)
     x_diff = xpos - x_position
     y_diff = ypos - y_position
     x_diff.zero? || y_diff.zero? || x_diff.abs == y_diff.abs
@@ -42,5 +49,9 @@ class Piece < ApplicationRecord
     return -1 if from > to
 
     0
+  end
+
+  def invalid_move?(xpos, ypos)
+    !on_board?(xpos, ypos) || color == game.piece_at(xpos, ypos)&.color
   end
 end

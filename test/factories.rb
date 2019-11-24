@@ -3,6 +3,11 @@
 # This will guess the User class
 FactoryBot.define do
   factory :user do
+    sequence :email do |n|
+      "test#{n}@friend.gov"
+    end
+    password { 'friends4ever' }
+
     factory :user1 do
       email { 'test@user.gov' }
       password { 'aaaaaaa' }

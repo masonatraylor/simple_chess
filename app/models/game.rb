@@ -16,6 +16,10 @@ class Game < ApplicationRecord
     populate(black_player_id, (0..7).to_a, [0, 1])
   end
 
+  def piece_at(xpos, ypos)
+    pieces.filter { |p| p.at_coord?(xpos, ypos) }.first
+  end
+
   private
 
   def populate(player_id, x_coords, y_coords)

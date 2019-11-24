@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Knight, type: :model do
   context 'is created' do
-    it 'can be saved' do
+    it 'should be able to be saved' do
       piece = Knight.new
       game = build(:game)
       game.pieces << piece

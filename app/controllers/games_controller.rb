@@ -32,9 +32,9 @@ class GamesController < ApplicationController
 
       game.white_player_id = current_user.id
     end
-    
+
     game.populate! if game.white_player_id && game.black_player_id
-    
+
     game.save
   end
 
