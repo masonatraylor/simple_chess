@@ -6,7 +6,7 @@
       <div class='square <%= (row + col).even? ? 'white' : 'black' %>'>
         <% piece = @pieces.filter{ |p| p.x_position == col && p.y_position == row }.first %>
         <% if piece %>
-          <a href='<%= piece_path(piece.id) %>'>
+          <a href='<%= piece_path(piece) %>'>
             <%= fa_icon('chess-' + piece.type.downcase, class:"piece-#{piece.color}") %>
           </a>
         <% end %>
