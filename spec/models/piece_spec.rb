@@ -78,7 +78,7 @@ RSpec.describe Piece, type: :model do
       expect(piece.obstructed_by(6, 2)).not_to be nil
     end
   end
-  
+
   context 'color tests' do
     it 'should correctly determine color' do
       game = create(:game)
