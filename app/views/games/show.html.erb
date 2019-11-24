@@ -3,8 +3,11 @@
 <div class='chess-grid mx-auto mt-5'>
   <% (0..7).each do |row| %>
     <% (0..7).each do |col| %>
-      <div class='<%= (row + col).even? ? 'white' : 'black' %>'>
-
+      <div class='square <%= (row + col).even? ? 'white' : 'black' %>'>
+        <% piece = @pieces.filter{ |p| p.x_position == col && p.y_position == row }.first %>
+        <% if piece %>
+          <%= fa_icon('chess-' + piece.type.downcase, class:"piece-#{piece_color(piece)}") %>
+        <% end %>
       </div>
     <% end %>
   <% end %>

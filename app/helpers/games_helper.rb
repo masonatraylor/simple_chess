@@ -7,4 +7,10 @@ module GamesHelper
 
     link_to('join', game_path(game, join: color), method: :put)
   end
+
+  def piece_color(piece)
+    return 'black' if piece.player_id == @game.black_player_id
+
+    'white' if piece.player_id == @game.white_player_id
+  end
 end
