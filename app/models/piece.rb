@@ -28,6 +28,12 @@ class Piece < ApplicationRecord
     []
   end
 
+  def move_to!(xpos, ypos)
+    return false unless valid_move?(xpos, ypos)
+
+    update_attributes(x_position: xpos, y_position: ypos)
+  end
+
   private
 
   def valid_coords_for_obstruction?(xpos, ypos)

@@ -12,7 +12,10 @@ class PiecesController < ApplicationController
 
   def update
     @piece = Piece.find(params[:id])
-    if params[:row] && params[:col]
+    if params[:row] && params[:col] && !@piece.move_to!(params[:col].to_i, params[:row].to_i)
+      flash[:alert] = 'Invalid move!'
     end
+
+    redirect_to @piece.game
   end
 end
