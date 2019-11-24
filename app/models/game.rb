@@ -17,7 +17,7 @@ class Game < ApplicationRecord
   end
 
   def piece_at(xpos, ypos)
-    pieces.filter { |p| p.at_coord?(xpos, ypos) }.first
+    pieces.reload.filter { |p| p.at_coord?(xpos, ypos) }.first
   end
 
   private

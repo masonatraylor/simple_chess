@@ -12,10 +12,17 @@ class PiecesController < ApplicationController
 
   def update
     @piece = Piece.find(params[:id])
-    if params[:row] && params[:col] && !@piece.move_to!(params[:col].to_i, params[:row].to_i)
-      flash[:alert] = 'Invalid move!'
-    end
+    move_piece if params[:row] && params[:col]
 
     redirect_to @piece.game
+  end
+
+  def move_piece
+    col = params[:col].to_i
+    row = params[:row].to_i
+
+    return if @piece.at_coord?(col, row) || @piece.move_to!(col, row)
+
+    flash[:alert] = 'Invalid move!'
   end
 end

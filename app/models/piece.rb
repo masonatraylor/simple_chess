@@ -20,6 +20,16 @@ class Piece < ApplicationRecord
     'white' if player_id == game.white_player_id
   end
 
+  def opposite_color
+    return 'white' if color == 'black'
+
+    'black' if color == 'white'
+  end
+
+  def enemy_piece_at?(xpos, ypos)
+    game.piece_at(xpos, ypos)&.color == opposite_color
+  end
+
   def valid_move?(xpos, ypos)
     valid_moves.include?([xpos, ypos])
   end
@@ -32,7 +42,7 @@ class Piece < ApplicationRecord
     return false unless valid_move?(xpos, ypos)
 
     game.piece_at(xpos, ypos)&.delete
-    update_attributes(x_position: xpos, y_position: ypos)
+    update_attributes(x_position: xpos, y_position: ypos, moved: true)
   end
 
   private
@@ -67,6 +77,8 @@ class Piece < ApplicationRecord
   end
 
   def invalid_move?(xpos, ypos)
-    !on_board?(xpos, ypos) || color == game.piece_at(xpos, ypos)&.color
+    !on_board?(xpos, ypos) ||
+      color == game.piece_at(xpos, ypos)&.color ||
+      obstructed_by(xpos, ypos)
   end
 end
