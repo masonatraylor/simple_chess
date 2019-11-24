@@ -1,0 +1,20 @@
+<h1>Game <%= @game.name %></h1>
+
+<div class='chess-grid mx-auto mt-5'>
+  <% (0..7).each do |row| %>
+    <% (0..7).each do |col| %>
+      <div class='square <%= (row + col).even? ? 'white' : 'black' %>'>
+
+        <% highlight = 'reddish' if @piece.at_coord?(col, row) %>
+        <% highlight = 'blueish' if @moves&.include?([col, row]) %>
+        <%= link_to piece_path(@piece, row: row, col: col), method: :put,
+         class:"full-size square #{highlight}" do %>
+          <% piece = @pieces.filter{ |p| p.x_position == col && p.y_position == row }.first %>
+          <% if piece %>
+            <%= fa_icon('chess-' + piece.type.downcase, class:"piece-#{piece.color}") %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

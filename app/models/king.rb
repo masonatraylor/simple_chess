@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class King < Piece
-  def valid_move?(xpos, ypos)
-    valid_moves.include?([xpos, ypos])
-  end
-
   def valid_moves
     x_positions = (x_position - 1..x_position + 1).to_a
     y_positions = (y_position - 1..y_position + 1).to_a
