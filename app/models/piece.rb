@@ -9,6 +9,10 @@ class Piece < ApplicationRecord
     piece_blocking(xpos, ypos)
   end
 
+  def at_coord?(xpos, ypos)
+    x_position == xpos && y_position == ypos
+  end
+
   private
 
   def valid_coords?(xpos, ypos)
@@ -23,7 +27,7 @@ class Piece < ApplicationRecord
     x = x_position + x_inc
     y = y_position + y_inc
     until x == xpos && y == ypos
-      piece = game.pieces.where(x_position: x, y_position: y).take
+      piece = game.pieces.filter { |p| p.at_coord?(x, y) }.first
       return piece if piece
 
       x += x_inc
