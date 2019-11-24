@@ -31,6 +31,7 @@ class Piece < ApplicationRecord
   def move_to!(xpos, ypos)
     return false unless valid_move?(xpos, ypos)
 
+    game.piece_at(xpos, ypos)&.delete
     update_attributes(x_position: xpos, y_position: ypos)
   end
 
