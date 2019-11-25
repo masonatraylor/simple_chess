@@ -67,6 +67,14 @@ class Piece < ApplicationRecord
     [xpos, ypos].min >= 0 && [xpos, ypos].max <= 7
   end
 
+  def friendly_pieces
+    game.pieces_for(color)
+  end
+
+  def opponent_pieces
+    game.pieces_for(opposite_color)
+  end
+
   private
 
   def valid_coords_for_obstruction?(xpos, ypos)

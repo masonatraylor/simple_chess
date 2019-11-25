@@ -44,6 +44,37 @@ RSpec.describe King, type: :model do
       expect(king.valid_move?(3, 4)).to be true
       expect(king.valid_moves.length).to be 8
     end
+    it 'should be able to castle' do
+      king = create_piece_for_game(King, 4, 0)
+      rook = create_piece_for_game(Rook, 0, 0)
+      expect(king.valid_move?(1, 0)).to eq(true)
+      king.move_to!(1, 0)
+      expect(rook.reload.at_coord?(2, 0)).to eq(true)
+    end
+    it 'should not be able to castle when in check' do
+      king = create_piece_for_game(King, 4, 0)
+      create_piece_for_game(Rook, 0, 0)
+      create_piece_for_game(Queen, 4, 6, :black)
+      expect(king.valid_move?(1, 0)).to eq(false)
+    end
+    it 'should not be able to castle through check' do
+      king = create_piece_for_game(King, 4, 0)
+      create_piece_for_game(Rook, 0, 0)
+      create_piece_for_game(Queen, 3, 6, :black)
+      expect(king.valid_move?(1, 0)).to eq(false)
+    end
+    it 'should not be able to castle into check' do
+      king = create_piece_for_game(King, 4, 0)
+      create_piece_for_game(Rook, 0, 0)
+      create_piece_for_game(Queen, 1, 6, :black)
+      expect(king.valid_move?(1, 0)).to eq(false)
+    end
+    it 'should not be able to castle through pieces' do
+      king = create_piece_for_game(King, 4, 0)
+      create_piece_for_game(Rook, 0, 0)
+      create_piece_for_game(Queen, 3, 0)
+      expect(king.valid_move?(1, 0)).to eq(false)
+    end
   end
 
   def create_piece_for_game(type, xpos, ypos, color = :white)

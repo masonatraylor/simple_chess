@@ -20,15 +20,13 @@ class Game < ApplicationRecord
     pieces.filter { |p| p.at_coord?(xpos, ypos) }.first
   end
 
-  def pieces_for(white)
-    pieces.filter { |p| p.white? == white && p.on_board? }
+  def pieces_for(color)
+    pieces.filter { |p| p.color == color && p.on_board? }
   end
 
   def check?(color)
-    white = color == :white
-
-    king = pieces_for(white).filter { |p| p.type == 'King' }.first
-    pieces_for(!white).any? { |p| p.can_take?(king) } if king
+    king = pieces_for(color).filter { |p| p.type == 'King' }.first
+    king&.opponent_pieces&.any? { |p| p.can_take?(king) }
   end
 
   private
