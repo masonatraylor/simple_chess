@@ -9,15 +9,11 @@ class Piece < ApplicationRecord
   end
 
   def color
-    return 'black' if player_id == game.black_player_id
-
-    'white' if player_id == game.white_player_id
+    white? ? 'white' : 'black'
   end
 
   def opposite_color
-    return 'white' if color == 'black'
-
-    'black' if color == 'white'
+    white? ? 'black' : 'white'
   end
 
   def enemy_piece_at?(xpos, ypos)

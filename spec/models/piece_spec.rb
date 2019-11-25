@@ -81,17 +81,10 @@ RSpec.describe Piece, type: :model do
 
   context 'color tests' do
     it 'should correctly determine color' do
-      game = create(:game)
-      user1 = create(:user)
-      game.white_player_id = user1.id
-      user2 = create(:user)
-      game.black_player_id = user2.id
-      game.save
-
-      piece = Piece.new(game_id: game.id, player_id: user1.id)
+      piece = Piece.new(white: true)
       expect(piece.color).to eq('white')
 
-      piece = Piece.new(game_id: game.id, player_id: user2.id)
+      piece = Piece.new(white: false)
       expect(piece.color).to eq('black')
     end
   end
