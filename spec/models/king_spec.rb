@@ -40,16 +40,16 @@ RSpec.describe King, type: :model do
     end
     it 'should be able to move onto enemy pieces' do
       king = create_piece_for_game(King, 3, 3)
-      create_piece_for_game(Pawn, 3, 4, @user2)
+      create_piece_for_game(Pawn, 3, 4, :black)
       expect(king.valid_move?(3, 4)).to be true
       expect(king.valid_moves.length).to be 8
     end
   end
 
-  def create_piece_for_game(type, xpos, ypos, user = @user1)
+  def create_piece_for_game(type, xpos, ypos, color = :white)
     type.create(x_position: xpos,
                 y_position: ypos,
                 game_id: @game.id,
-                player_id: user.id)
+                white: color == :white)
   end
 end

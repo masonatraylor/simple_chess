@@ -41,15 +41,15 @@ RSpec.describe Rook, type: :model do
     end
     it 'should be able to take opponent pieces' do
       rook = create_piece_for_game(Rook, 3, 3)
-      create_piece_for_game(Rook, 1, 3, @user2)
+      create_piece_for_game(Rook, 1, 3, :black)
       expect(rook.valid_move?(1, 3)).to eq(true)
     end
   end
 
-  def create_piece_for_game(type, xpos, ypos, user = @user1)
+  def create_piece_for_game(type, xpos, ypos, color = :white)
     type.create(x_position: xpos,
                 y_position: ypos,
                 game_id: @game.id,
-                player_id: user.id)
+                white: color == :white)
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_24_083852) do
+ActiveRecord::Schema.define(version: 2019_11_25_071451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,12 +28,13 @@ ActiveRecord::Schema.define(version: 2019_11_24_083852) do
     t.string "type"
     t.integer "x_position"
     t.integer "y_position"
-    t.integer "player_id"
     t.integer "game_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "moved", default: false
+    t.boolean "white", default: true
     t.index ["game_id"], name: "index_pieces_on_game_id"
+    t.index ["white"], name: "index_pieces_on_white"
   end
 
   create_table "users", force: :cascade do |t|

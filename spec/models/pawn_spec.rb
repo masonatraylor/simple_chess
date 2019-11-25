@@ -31,10 +31,10 @@ RSpec.describe Pawn, type: :model do
     end
     it 'should only be able to take diagonally' do
       white_pawn = create_piece_for_game(Pawn, 2, 6)
-      create_piece_for_game(Pawn, 2, 5, @user2)
+      create_piece_for_game(Pawn, 2, 5, :black)
       expect(white_pawn.valid_move?(2, 5)).to eq(false)
       expect(white_pawn.valid_move?(3, 5)).to eq(false)
-      create_piece_for_game(Pawn, 1, 5, @user2)
+      create_piece_for_game(Pawn, 1, 5, :black)
       expect(white_pawn.valid_move?(1, 5)).to eq(true)
     end
     it 'should move in the right direction' do
@@ -48,10 +48,10 @@ RSpec.describe Pawn, type: :model do
     end
   end
 
-  def create_piece_for_game(type, xpos, ypos, user = @user1)
+  def create_piece_for_game(type, xpos, ypos, color = :white)
     type.create(x_position: xpos,
                 y_position: ypos,
                 game_id: @game.id,
-                player_id: user.id)
+                white: color == :white)
   end
 end
