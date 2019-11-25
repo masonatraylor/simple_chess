@@ -1,33 +1,30 @@
 # frozen_string_literal: true
 
 class Pawn < Piece
-  def valid_moves
-    moves = step_move + jump_move + diagonal_moves
-    moves.reject { |xpos, ypos| invalid_move?(xpos, ypos) }
+  def valid_move?(xpos, ypos)
+    !invalid_move?(xpos, ypos) && (
+      valid_step_move?(xpos, ypos) ||
+      valid_jump_move?(xpos, ypos) ||
+      valid_diagonal_move?(xpos, ypos))
   end
 
-  def step_move
-    return [] if enemy_piece_at?(x_position, y_position + dir)
-
-    [[x_position, y_position + dir]]
+  def valid_step_move?(xpos, ypos)
+    xpos == x_position &&
+      ypos == y_position + dir &&
+      !enemy_piece_at?(x_position, y_position + dir)
   end
 
-  def jump_move
-    return [] if moved? || enemy_piece_at?(x_position, y_position + 2 * dir)
-
-    [[x_position, y_position + 2 * dir]]
+  def valid_jump_move?(xpos, ypos)
+    !moved? &&
+      xpos == x_position &&
+      ypos == y_position + 2 * dir &&
+      !enemy_piece_at?(x_position, y_position + 2 * dir)
   end
 
-  def diagonal_moves
-    moves = []
-
-    [-1, 1].each do |x_diff|
-      if enemy_piece_at?(x_position + x_diff, y_position + dir)
-        moves << [x_position + x_diff, y_position + dir]
-      end
-    end
-
-    moves
+  def valid_diagonal_move?(xpos, ypos)
+    (xpos - x_position).abs == 1 &&
+      ypos == y_position + dir &&
+      enemy_piece_at?(xpos, ypos)
   end
 
   def dir

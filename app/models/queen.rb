@@ -1,29 +1,19 @@
 # frozen_string_literal: true
 
 class Queen < Piece
-  def valid_moves
-    moves = horizontal_moves + vertical_moves + diagonal_moves
-    moves.reject { |x, y| invalid_move?(x, y) }
+  def valid_move?(xpos, ypos)
+    !invalid_move?(xpos, ypos) && (
+      valid_orthogonal_move?(xpos, ypos) ||
+      valid_diagonal_move?(xpos, ypos)
+    )
   end
 
-  def horizontal_moves
-    (0..7).to_a.product([y_position])
+  def valid_orthogonal_move?(xpos, ypos)
+    xpos == x_position || ypos == y_position
   end
 
-  def vertical_moves
-    [x_position].product((0..7).to_a)
-  end
-
-  def diagonal_moves
-    moves = []
-    directions = [1, -1].product([1, -1])
-
-    (0..7).each do |i|
-      directions.each do |x_dir, y_dir|
-        moves << [x_position + x_dir * i, y_position + y_dir * i]
-      end
-    end
-
-    moves
+  def valid_diagonal_move?(xpos, ypos)
+    xpos + ypos == x_position + y_position ||
+      xpos - ypos == x_position - y_position
   end
 end
