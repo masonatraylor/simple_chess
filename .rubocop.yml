@@ -9,6 +9,10 @@ Metrics/LineLength:
   AutoCorrect: true
   IgnoredPatterns: ['\A*#']
 
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
 Style/Documentation:
   Enabled: false
 

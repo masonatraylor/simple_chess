@@ -13,16 +13,4 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe PiecesHelper, type: :helper do
-  context 'on board checks' do
-    it 'should correctly determine if pieces are on board' do
-      expect(helper.on_board?(-1, 0)).to eq(false)
-      expect(helper.on_board?(5, -6)).to eq(false)
-      expect(helper.on_board?(10, 6)).to eq(false)
-      expect(helper.on_board?(3, 8)).to eq(false)
-      expect(helper.on_board?(5, 3)).to eq(true)
-      expect(helper.on_board?(2, 6)).to eq(true)
-      expect(helper.on_board?(0, 0)).to eq(true)
-      expect(helper.on_board?(7, 7)).to eq(true)
-    end
-  end
 end

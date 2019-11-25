@@ -29,9 +29,8 @@ class Piece < ApplicationRecord
   end
 
   def move_to!(xpos, ypos)
-    return false unless valid_move?(xpos, ypos)
-
-    game.piece_at(xpos, ypos)&.delete
+    game.piece_at(xpos,
+                  ypos)&.update_attributes(x_position: nil, y_position: nil)
     update_attributes(x_position: xpos, y_position: ypos, moved: true)
     game.pieces.reload
   end
@@ -42,8 +41,8 @@ class Piece < ApplicationRecord
     x_inc = inc(xpos, x_position)
     y_inc = inc(ypos, y_position)
 
-    # Only check squares between the two squares
-    until xpos == x_position - x_inc && ypos == y_position - y_inc
+    # Only check squares between the two endpoints
+    until xpos + x_inc == x_position && ypos + y_inc == y_position
       xpos += x_inc
       ypos += y_inc
 
@@ -55,6 +54,16 @@ class Piece < ApplicationRecord
 
   def can_take?(piece)
     valid_move?(piece.x_position, piece.y_position)
+  end
+
+  def on_board?
+    Piece.on_board?(x_position, y_position)
+  end
+
+  def self.on_board?(xpos, ypos)
+    return false unless xpos && ypos
+
+    [xpos, ypos].min >= 0 && [xpos, ypos].max <= 7
   end
 
   private
@@ -73,23 +82,8 @@ class Piece < ApplicationRecord
   end
 
   def invalid_move?(xpos, ypos)
-    !on_board?(xpos, ypos) ||
+    !Piece.on_board?(xpos, ypos) ||
       color == game.piece_at(xpos, ypos)&.color ||
       obstructed?(xpos, ypos)
-  end
-
-  def will_be_in_check(xpos, ypos)
-    initial_x = x_position
-    initial_y = y_position
-
-    x_position = xpos
-    y_position = ypos
-
-    check = game.check?(color)
-
-    x_position = initial_x
-    y_position = initial_y
-
-    check
   end
 end
