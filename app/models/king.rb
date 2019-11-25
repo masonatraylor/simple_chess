@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
 class King < Piece
-  def valid_moves
-    x_positions = (x_position - 1..x_position + 1).to_a
-    y_positions = (y_position - 1..y_position + 1).to_a
+  def valid_move?(xpos, ypos)
+    !invalid_move?(xpos, ypos) && (
+      valid_step_move?(xpos, ypos)
+    )
+  end
 
-    x_positions.product(y_positions).reject { |x, y| invalid_move?(x, y) }
+  def valid_step_move?(xpos, ypos)
+    (xpos - x_position).abs <= 1 && (ypos - y_position).abs <= 1
   end
 end

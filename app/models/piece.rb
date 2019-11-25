@@ -21,11 +21,12 @@ class Piece < ApplicationRecord
   end
 
   def valid_move?(xpos, ypos)
-    valid_moves.include?([xpos, ypos])
+    false
   end
 
   def valid_moves
-    []
+    all_coords = (0..7).to_a.product((0..7).to_a)
+    all_coords.filter{ |x, y| valid_move?(x, y) }
   end
 
   def move_to!(xpos, ypos)
