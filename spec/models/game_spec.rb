@@ -23,7 +23,7 @@ RSpec.describe Game, type: :model do
     end
     it 'can determine check' do
       king = create_piece_for_game(King, 4, 4)
-      rook = create_piece_for_game(Rook, 0, 4, :black)
+      create_piece_for_game(Rook, 0, 4, :black)
       expect(@game.check?(:white)).to eq(true)
       king.move_to!(4, 5)
       expect(@game.check?(:white)).to eq(false)

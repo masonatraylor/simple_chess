@@ -95,10 +95,16 @@ RSpec.describe Piece, type: :model do
     end
   end
 
-  context 'will_be_in_check tests' do
-    it 'should tell when moving into check' do
-
-
+  context 'on board checks' do
+    it 'should correctly determine if pieces are on board' do
+      expect(Piece.on_board?(-1, 0)).to eq(false)
+      expect(Piece.on_board?(5, -6)).to eq(false)
+      expect(Piece.on_board?(10, 6)).to eq(false)
+      expect(Piece.on_board?(3, 8)).to eq(false)
+      expect(Piece.on_board?(5, 3)).to eq(true)
+      expect(Piece.on_board?(2, 6)).to eq(true)
+      expect(Piece.on_board?(0, 0)).to eq(true)
+      expect(Piece.on_board?(7, 7)).to eq(true)
     end
   end
 

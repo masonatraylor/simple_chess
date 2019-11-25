@@ -20,9 +20,8 @@ class PiecesController < ApplicationController
   def move_piece
     col = params[:col].to_i
     row = params[:row].to_i
+    return @piece.move_to!(col, row) if @piece.valid_move?(col, row)
 
-    return if @piece.at_coord?(col, row) || @piece.move_to!(col, row)
-
-    flash[:alert] = 'Invalid move!'
+    flash[:alert] = 'Invalid move!' unless @piece.at_coord?(col, row)
   end
 end

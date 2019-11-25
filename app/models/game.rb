@@ -21,7 +21,7 @@ class Game < ApplicationRecord
   end
 
   def pieces_for(white)
-    pieces.filter { |p| p.white == white }
+    pieces.filter { |p| p.white? == white && p.on_board? }
   end
 
   def check?(color)
