@@ -31,6 +31,6 @@ class Pawn < Piece
   end
 
   def dir
-    color == 'white' ? -1 : 1
+    white? ? -1 : 1
   end
 end

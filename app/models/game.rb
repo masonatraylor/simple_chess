@@ -17,7 +17,18 @@ class Game < ApplicationRecord
   end
 
   def piece_at(xpos, ypos)
-    pieces.reload.filter { |p| p.at_coord?(xpos, ypos) }.first
+    pieces.filter { |p| p.at_coord?(xpos, ypos) }.first
+  end
+
+  def pieces_for(white)
+    pieces.filter { |p| p.white == white }
+  end
+
+  def check?(color)
+    white = color == :white
+
+    king = pieces_for(white).filter { |p| p.type == 'King' }.first
+    pieces_for(!white).any? { |p| p.can_take?(king) } if king
   end
 
   private

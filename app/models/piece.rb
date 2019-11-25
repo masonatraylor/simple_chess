@@ -9,11 +9,11 @@ class Piece < ApplicationRecord
   end
 
   def color
-    white? ? 'white' : 'black'
+    white? ? :white : :black
   end
 
   def opposite_color
-    white? ? 'black' : 'white'
+    white? ? :black : :white
   end
 
   def enemy_piece_at?(xpos, ypos)
@@ -21,7 +21,6 @@ class Piece < ApplicationRecord
   end
 
   def valid_move?(xpos, ypos)
-    game.pieces.reload
     valid_moves.include?([xpos, ypos])
   end
 
@@ -34,12 +33,28 @@ class Piece < ApplicationRecord
 
     game.piece_at(xpos, ypos)&.delete
     update_attributes(x_position: xpos, y_position: ypos, moved: true)
+    game.pieces.reload
   end
 
-  def obstructed_by(xpos, ypos)
-    return nil unless valid_coords_for_obstruction?(xpos, ypos)
+  def obstructed?(xpos, ypos)
+    return false unless valid_coords_for_obstruction?(xpos, ypos)
 
-    piece_obstructing(xpos, ypos)
+    x_inc = inc(xpos, x_position)
+    y_inc = inc(ypos, y_position)
+
+    # Only check squares between the two squares
+    until xpos == x_position - x_inc && ypos == y_position - y_inc
+      xpos += x_inc
+      ypos += y_inc
+
+      return true if game.piece_at(xpos, ypos)
+    end
+
+    false
+  end
+
+  def can_take?(piece)
+    valid_move?(piece.x_position, piece.y_position)
   end
 
   private
@@ -48,23 +63,6 @@ class Piece < ApplicationRecord
     x_diff = xpos - x_position
     y_diff = ypos - y_position
     x_diff.zero? || y_diff.zero? || x_diff.abs == y_diff.abs
-  end
-
-  def piece_obstructing(xpos, ypos)
-    x_inc = inc(x_position, xpos)
-    y_inc = inc(y_position, ypos)
-    x = x_position + x_inc
-    y = y_position + y_inc
-
-    until x == xpos && y == ypos
-      piece = game.piece_at(x, y)
-      return piece if piece
-
-      x += x_inc
-      y += y_inc
-    end
-
-    nil
   end
 
   def inc(from, to)
@@ -77,6 +75,21 @@ class Piece < ApplicationRecord
   def invalid_move?(xpos, ypos)
     !on_board?(xpos, ypos) ||
       color == game.piece_at(xpos, ypos)&.color ||
-      obstructed_by(xpos, ypos)
+      obstructed?(xpos, ypos)
+  end
+
+  def will_be_in_check(xpos, ypos)
+    initial_x = x_position
+    initial_y = y_position
+
+    x_position = xpos
+    y_position = ypos
+
+    check = game.check?(color)
+
+    x_position = initial_x
+    y_position = initial_y
+
+    check
   end
 end

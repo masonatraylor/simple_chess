@@ -54,9 +54,9 @@ RSpec.describe Queen, type: :model do
   end
 
   def create_piece_for_game(type, xpos, ypos, color = :white)
-    type.create(x_position: xpos,
-                y_position: ypos,
-                game_id: @game.id,
-                white: color == :white)
+    @game.pieces << type.create(x_position: xpos,
+                                y_position: ypos,
+                                white: color == :white)
+    @game.pieces.last
   end
 end
