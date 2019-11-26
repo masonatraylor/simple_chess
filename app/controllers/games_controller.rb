@@ -19,6 +19,9 @@ class GamesController < ApplicationController
   def update
     game = Game.find(params[:id])
     join(game, params[:join]) if params[:join]
+    if params[:forfeit] && !game.forfeit(current_user.id)
+      flash[:alert] = 'Unable to forfeit (not in game)'
+    end
     redirect_to game
   end
 
