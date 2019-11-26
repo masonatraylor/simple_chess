@@ -1,8 +1,9 @@
 <h1>Game <%= @game.name %></h1>
 
+<% range = flip_board? ? (0..7).to_a.reverse : (0..7) %>
 <div class='chess-grid mx-auto mt-5'>
-  <% (0..7).each do |row| %>
-    <% (0..7).each do |col| %>
+  <% range.each do |row| %>
+    <% range.each do |col| %>
       <div class='square <%= (row + col).even? ? 'white' : 'black' %>'>
 
         <% highlight = 'reddish' if @piece.at_coord?(col, row) %>

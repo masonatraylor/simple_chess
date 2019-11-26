@@ -5,6 +5,7 @@ class Game < ApplicationRecord
         -> { where('white_player_id is NULL or black_player_id is NULL') }
   has_many :pieces
   belongs_to :user
+  enum status: %w[white_turn black_turn white_won black_won stalemate]
 
   validates :name, uniqueness: true, length: { minimum: 3, maximum: 60 }
 
@@ -27,6 +28,57 @@ class Game < ApplicationRecord
   def check?(color)
     king = pieces_for(color).filter { |p| p.type == 'King' }.first
     king&.opponent_pieces&.any? { |p| p.can_take?(king) }
+  end
+
+  def turn_color
+    return :white if white_turn?
+    return :black if black_turn?
+  end
+
+  def opposite_color(color = turn_color)
+    return :black if color == :white
+    return :white if color == :black
+  end
+
+  def finish_turn
+    pieces.reload
+    change_turn
+    return unless no_moves?
+
+    winner = check?(turn_color) ? opposite_color : nil
+
+    record_winner(winner)
+  end
+
+  def change_turn
+    return white_turn! if black_turn?
+    return black_turn! if white_turn?
+  end
+
+  def no_moves?
+    pieces_for(turn_color).all? { |p| p.valid_moves.size.zero? }
+  end
+
+  def win_status
+    black_turn? ? :white_won : :black_won
+  end
+
+  def record_winner(color)
+    return stalemate! unless color
+    return white_won! if color == :white
+    return black_won! if color == :black
+  end
+
+  def forfeit(player_id)
+    if player_id == black_player_id
+      return stalemate! if player_id == white_player_id
+
+      return white_won!
+    end
+
+    return black_won! if player_id == white_player_id
+
+    false
   end
 
   private

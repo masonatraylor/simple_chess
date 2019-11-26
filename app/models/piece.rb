@@ -78,6 +78,10 @@ class Piece < ApplicationRecord
     game.pieces_for(opposite_color)
   end
 
+  def player_id
+    white? ? game.white_player_id : game.black_player_id
+  end
+
   private
 
   def valid_coords_for_obstruction?(xpos, ypos)
