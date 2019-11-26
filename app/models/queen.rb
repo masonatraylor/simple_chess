@@ -2,10 +2,9 @@
 
 class Queen < Piece
   def valid_move?(xpos, ypos)
-    !invalid_move?(xpos, ypos) && (
-      valid_orthogonal_move?(xpos, ypos) ||
-      valid_diagonal_move?(xpos, ypos)
-    )
+    (valid_orthogonal_move?(xpos, ypos) ||
+      valid_diagonal_move?(xpos, ypos)) &&
+      super(xpos, ypos)
   end
 
   def valid_orthogonal_move?(xpos, ypos)

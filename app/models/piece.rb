@@ -21,17 +21,20 @@ class Piece < ApplicationRecord
   end
 
   def valid_move?(xpos, ypos)
-    false
+    Piece.on_board?(xpos, ypos) &&
+      color != game.piece_at(xpos, ypos)&.color &&
+      !obstructed?(xpos, ypos) &&
+      !would_be_in_check?(xpos, ypos)
   end
 
   def valid_moves
     all_coords = (0..7).to_a.product((0..7).to_a)
-    all_coords.filter{ |x, y| valid_move?(x, y) }
+    all_coords.filter { |x, y| valid_move?(x, y) }
   end
 
   def move_to!(xpos, ypos)
-    game.piece_at(xpos,
-                  ypos)&.update_attributes(x_position: nil, y_position: nil)
+    game.piece_at(xpos, ypos)&.update_attributes(x_position: nil,
+                                                 y_position: nil)
     update_attributes(x_position: xpos, y_position: ypos, moved: true)
     game.pieces.reload
   end
@@ -90,9 +93,24 @@ class Piece < ApplicationRecord
     0
   end
 
-  def invalid_move?(xpos, ypos)
-    !Piece.on_board?(xpos, ypos) ||
-      color == game.piece_at(xpos, ypos)&.color ||
-      obstructed?(xpos, ypos)
+  def would_be_in_check?(xpos, ypos)
+    target = game.piece_at(xpos, ypos)
+
+    # Will not be in check if this move ends the game
+    return false if target&.type == 'King'
+
+    previous_attrs = attributes
+    previous_target_attrs = target&.attributes
+
+    begin
+      update_attributes(x_position: xpos, y_position: ypos)
+      target&.update_attributes(x_position: nil, y_position: nil)
+      game.pieces.reload
+      return game.check?(color)
+    ensure
+      update_attributes(previous_attrs)
+      target&.update_attributes(previous_target_attrs)
+      game.pieces.reload
+    end
   end
 end
