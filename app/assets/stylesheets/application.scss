@@ -15,7 +15,14 @@
 */
 
 @import "bootstrap";
+@import "jquery-ui";
 @import "font_awesome5_webfont";
+
+a {
+  &:hover, &link, &:visited, &:active {
+    text-decoration: none;
+  }
+}
 
 // Misc styling
 .easy-col-3 {
@@ -45,9 +52,15 @@
 }
 .piece-white {
   color: #aaa;
+  a:hover, a:link, a:visited, a:active {
+    color: #aaa
+  }
 }
 .piece-black {
   color: #000;
+  a:hover, a:link, a:visited, a:active {
+    color: #000
+  }
 }
 .square {
   align-items: center;

@@ -2,14 +2,16 @@
 
 <% range = flip_board? ? (0..7).to_a.reverse : (0..7) %>
 <div class='chess-grid mx-auto mt-5'>
-  <% range.each do |row| %>
-    <% range.each do |col| %>
-      <div class='square <%= (row + col).even? ? 'white' : 'black' %>'>
-        <% piece = @pieces.filter{ |p| p.x_position == col && p.y_position == row }.first %>
-        <% if piece %>
-          <a href='<%= piece_path(piece) %>'>
-            <%= fa_icon('chess-' + piece.type.downcase, class:"piece-#{piece.color}") %>
-          </a>
+  <% range.each do |ypos| %>
+    <% range.each do |xpos| %>
+      <div xpos=<%= xpos %> ypos=<%= ypos %> 
+        class='full-size square <%= (ypos + xpos).even? ? 'white' : 'black' %>'>
+      
+        <% current_piece = @game.piece_at(xpos, ypos) %>
+        <% if current_piece %>
+          <span piece_id=<%= current_piece.id %> class='full-size square piece piece-<%= current_piece.color %>'>
+            <%= fa_icon('chess-' + current_piece.type.downcase) %>
+          </span>
         <% end %>
       </div>
     <% end %>
@@ -17,3 +19,18 @@
 </div>
 
 <%= link_to 'Forfeit', game_path(@game, forfeit: true), method: :put %>
+
+<script type='text/javascript'>
+  $('.piece').draggable();
+  $('.square').droppable({
+    drop: function( event, ui ) {
+      id = ui.draggable[0].attributes['piece_id'].value
+      xpos = event.target.attributes['xpos'].value
+      ypos = event.target.attributes['ypos'].value
+      $.ajax({
+        url: `/pieces/${id}?xpos=${xpos}&ypos=${ypos}`,
+        type: 'PUT'
+      });
+    }
+  });
+</script>
