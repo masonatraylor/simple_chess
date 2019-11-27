@@ -12,8 +12,8 @@ class PiecesController < ApplicationController
 
   def update
     @piece = Piece.find(params[:id])
-    move_piece if params[:ypos] && params[:xpos] && can_move
 
+    move_piece if params[:ypos] && params[:xpos] && can_move
     redirect_to @piece.game
   end
 
@@ -32,6 +32,7 @@ class PiecesController < ApplicationController
   def move_piece
     xpos = params[:xpos].to_i
     ypos = params[:ypos].to_i
+
     if @piece.valid_move?(xpos, ypos)
       @piece.move_to!(xpos, ypos)
       @piece.game.finish_turn

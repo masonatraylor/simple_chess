@@ -9,14 +9,6 @@ class Game < ApplicationRecord
 
   validates :name, uniqueness: true, length: { minimum: 3, maximum: 60 }
 
-  def populate!
-    raise 'Need both players' unless white_player_id && black_player_id
-    raise 'Game already populated' unless pieces.empty?
-
-    populate((0..7).to_a.reverse, [7, 6], :white)
-    populate((0..7).to_a, [0, 1], :black)
-  end
-
   def piece_at(xpos, ypos)
     pieces.filter { |p| p.at_coord?(xpos, ypos) }.first
   end
@@ -79,6 +71,14 @@ class Game < ApplicationRecord
     return black_won! if player_id == white_player_id
 
     false
+  end
+
+  def populate!
+    raise 'Need both players' unless white_player_id && black_player_id
+    raise 'Game already populated' unless pieces.empty?
+
+    populate((0..7).to_a.reverse, [7, 6], :white)
+    populate((0..7).to_a, [0, 1], :black)
   end
 
   private
