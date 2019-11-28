@@ -33,10 +33,14 @@ class Piece < ApplicationRecord
   end
 
   def move_to!(xpos, ypos)
-    game.piece_at(xpos, ypos)&.update_attributes(x_position: nil,
-                                                 y_position: nil)
+    game.piece_at(xpos, ypos)&.remove!
     update_attributes(x_position: xpos, y_position: ypos, moved: true)
+    game.update_attributes(en_passant_pawn: nil)
     game.pieces.reload
+  end
+
+  def remove!
+    update_attributes(x_position: nil, y_position: nil)
   end
 
   def obstructed?(xpos, ypos)
@@ -100,7 +104,7 @@ class Piece < ApplicationRecord
   def would_be_in_check?(xpos, ypos)
     target = game.piece_at(xpos, ypos)
 
-    # Will not be in check if this move ends the game
+    # Would not be in check if this move ends the game
     return false if target&.type == 'King'
 
     previous_attrs = attributes

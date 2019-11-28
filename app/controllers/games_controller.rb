@@ -19,9 +19,7 @@ class GamesController < ApplicationController
   def update
     game = Game.find(params[:id])
     join(game, params[:join]) if params[:join]
-    if params[:forfeit] && !game.forfeit(current_user.id)
-      flash[:alert] = 'Unable to forfeit (not in game)'
-    end
+    forfeit if params[:forfeit]
     redirect_to game
   end
 
@@ -39,6 +37,10 @@ class GamesController < ApplicationController
     game.populate! if game.white_player_id && game.black_player_id
 
     game.save
+  end
+
+  def forfeit
+    flash[:alert] = 'Unable to forfeit' unless game.forfeit(current_user.id)
   end
 
   def show

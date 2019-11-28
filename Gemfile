@@ -40,10 +40,10 @@ gem 'bootstrap', '~> 4.3.1'
 gem 'devise', '~> 4.7.1'
 gem 'font_awesome5_rails', '~> 0.9.0'
 gem 'jquery-rails', '~> 4.3.5'
+gem 'jquery-ui-rails'
 gem 'popper_js', '~> 1.14.5'
 gem 'rubocop', '~> 0.76.0', require: false
 gem 'simple_form', '~> 5.0.1'
-gem 'jquery-ui-rails'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.3.3'
@@ -55,9 +55,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'guard-rspec', require: false
   gem 'rspec-rails', '~> 3.9.0'
   gem 'rspec_junit_formatter'
-  gem 'guard-rspec', require: false
 end
 
 group :development do
@@ -72,11 +72,9 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
+  gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'selenium-webdriver'
-  # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'chromedriver-helper'
-  gem 'database_cleaner'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
