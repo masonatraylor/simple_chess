@@ -50,6 +50,9 @@ a {
   height: 500px;
   width: 500px;
 }
+.movable {
+  cursor: pointer;
+}
 .piece-white {
   color: #aaa;
   a:hover, a:link, a:visited, a:active {
