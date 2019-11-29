@@ -28,6 +28,8 @@ class Piece < ApplicationRecord
   end
 
   def valid_moves
+    return [] unless x_position && y_position
+
     all_coords = (0..7).to_a.product((0..7).to_a)
     all_coords.filter { |x, y| valid_move?(x, y) }
   end
@@ -84,6 +86,14 @@ class Piece < ApplicationRecord
 
   def player_id
     white? ? game.white_player_id : game.black_player_id
+  end
+
+  def can_move?(user)
+    on_board? && my_turn? && user.id == player_id
+  end
+
+  def my_turn?
+    game.turn_color == color
   end
 
   private

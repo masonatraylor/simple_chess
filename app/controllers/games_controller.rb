@@ -45,7 +45,7 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
-    @pieces = @game.pieces
+    @movable_pieces = @game.pieces.filter { |p| p.can_move?(current_user) }
   end
 
   def index

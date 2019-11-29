@@ -3,30 +3,17 @@
 class PiecesController < ApplicationController
   before_action :authenticate_user!, only: %w[show update]
 
-  def show
-    @piece = Piece.find(params[:id])
-    @game = @piece.game
-    @pieces = @game.pieces
-    @moves = @piece.valid_moves
-  end
-
   def update
     @piece = Piece.find(params[:id])
 
-    move_piece if params[:ypos] && params[:xpos] && can_move
+    move_piece if params[:ypos] && params[:xpos] && can_move?
     redirect_to @piece.game
   end
 
-  def can_move
-    if current_user.id != @piece.player_id
-      flash[:alert] = "That's not your piece!"
-      return false
-    elsif @piece.game.turn_color != @piece.color
-      flash[:alert] = "It's not your turn!"
-      return false
-    end
-
-    true
+  def can_move?
+    flash[:alert] << 'This is not your piece!' unless current_user.controls_piece?(@piece)
+    flash[:alert] << "It is not this color's turn" unless @piece.my_turn?
+    @piece.can_move?(current_user)
   end
 
   def move_piece

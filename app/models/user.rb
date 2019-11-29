@@ -10,4 +10,9 @@ class User < ApplicationRecord
          :validatable
 
   has_many :games
+
+  def controls_piece?(piece)
+    id == piece.player_id
+  end
+
 end
