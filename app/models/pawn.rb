@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class Pawn < Piece
-  def valid_move?(xpos, ypos)
+  def valid_move?(xpos, ypos, promotion = nil)
     (valid_step_move?(xpos, ypos) ||
       valid_jump_move?(xpos, ypos) ||
       valid_diagonal_move?(xpos, ypos)) &&
+      valid_promotion?(ypos, promotion) &&
       super(xpos, ypos)
   end
 
@@ -37,11 +38,22 @@ class Pawn < Piece
     Pawn.find(game.en_passant_pawn).at_coord?(xpos, ypos - dir)
   end
 
-  def move_to!(xpos, ypos)
+  def valid_promotion?(ypos, promotion)
+    promotion.nil? ||
+      ([0, 7].include?(ypos) &&
+      %w[Queen Rook Bishop Knight].include?(promotion))
+  end
+
+  def move_to!(xpos, ypos, promotion = nil)
     jump_move = valid_jump_move?(xpos, ypos)
     Pawn.find(game.en_passant_pawn).remove! if en_passant_take?(xpos, ypos)
     super(xpos, ypos)
     game.en_passant_pawn = id if jump_move
+    promote_to promotion if promotion
+  end
+
+  def promote_to(promotion)
+    update_attributes(type: promotion)
   end
 
   def dir

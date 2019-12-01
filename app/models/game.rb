@@ -34,7 +34,7 @@ class Game < ApplicationRecord
 
   def finish_turn
     pieces.reload
-    change_turn
+    change_turn!
     return unless no_moves?
 
     winner = check?(turn_color) ? opposite_color : nil
@@ -42,13 +42,13 @@ class Game < ApplicationRecord
     record_winner(winner)
   end
 
-  def change_turn
+  def change_turn!
     return white_turn! if black_turn?
     return black_turn! if white_turn?
   end
 
   def no_moves?
-    pieces_for(turn_color).all? { |p| p.valid_moves.size.zero? }
+    pieces_for(turn_color).all? { |p| p.valid_moves.empty? }
   end
 
   def win_status

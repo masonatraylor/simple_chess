@@ -4,10 +4,22 @@ class PiecesController < ApplicationController
   before_action :authenticate_user!, only: %w[show update]
 
   def update
-    @piece = Piece.find(params[:id])
+    extract_update_params
+    return if missing_pawn_promotion_type?
 
     move_piece if params[:ypos] && params[:xpos] && can_move?
     redirect_to @piece.game
+  end
+
+  def extract_update_params
+    @piece = Piece.find(params[:id])
+    @xpos = params[:xpos].to_i
+    @ypos = params[:ypos].to_i
+    @promotion = params[:promotion]
+  end
+
+  def missing_pawn_promotion_type?
+    !@promotion && @piece.type == 'Pawn' && [0, 7].include?(@ypos)
   end
 
   def can_move?
@@ -17,14 +29,20 @@ class PiecesController < ApplicationController
   end
 
   def move_piece
-    xpos = params[:xpos].to_i
-    ypos = params[:ypos].to_i
+    if @promotion
+      return unless @piece.valid_move?(@xpos, @ypos, @promotion)
 
-    if @piece.valid_move?(xpos, ypos)
-      @piece.move_to!(xpos, ypos)
-      @piece.game.finish_turn
+      @piece.move_to!(@xpos, @ypos, @promotion)
+    else
+      return unless @piece.valid_move?(@xpos, @ypos)
+
+      @piece.move_to!(@xpos, @ypos)
     end
 
-    flash[:alert] = 'Invalid move!' unless @piece.at_coord?(xpos, ypos)
+    @piece.game.finish_turn
+  end
+
+  def highlight_moves
+    @piece = Piece.find_by_id(params[:id])
   end
 end

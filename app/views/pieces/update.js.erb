@@ -1,0 +1,14 @@
+$('#highlight-<%= @xpos %>-<%= @ypos %>').popover({ 
+  placement: 'top',
+  html: true,
+  title: "Choose promotion type",
+  trigger: "manual",
+  content: "<div id='pawn-promotion' class='mx-auto icons piece-<%= @piece.color %>'></div>"
+});
+$('#highlight-<%= @xpos %>-<%= @ypos %>').popover('show')
+$('#pawn-promotion').html(' \
+  <% %w[Queen Rook Bishop Knight].each do |type| %> \
+    <%= link_to(piece_path(@piece, xpos: @xpos, ypos: @ypos, promotion: type), method: :put, remote: false) do %> \
+      <%= fa_icon('chess-' << type.downcase) %> \
+    <% end %> \
+  <% end %>')

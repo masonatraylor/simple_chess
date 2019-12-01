@@ -1,0 +1,48 @@
+$( function() {
+  $('.blueish').off('click');
+  $('.blueish').droppable('destroy');
+  $('.reddish').removeClass('reddish');
+  $('.blueish').removeClass('blueish');
+  $('.selected').removeClass('selected');
+
+  <% if @piece %>
+
+    $('#piece-<%= @piece.id %>').addClass('selected');
+    $('#highlight-<%= @piece.x_position %>-<%= @piece.y_position %>').addClass('reddish');
+    <% @piece.valid_moves.each do |x, y| %>
+      $('#highlight-<%= x %>-<%= y %>').addClass('blueish');
+    <% end %>
+
+
+    $('.blueish').click(function() {
+      selected_id = piece_id(selected());
+      xpos = this.attributes['xpos'].value
+      ypos = this.attributes['ypos'].value
+      $.ajax({
+        url: `/pieces/${selected_id}?xpos=${xpos}&ypos=${ypos}`,
+        type: 'PUT'
+      });
+    });
+
+    function piece_id(element) {
+      return element ? element.attributes['piece_id'].value : null;
+    }
+
+    function selected() {
+      return $('.selected')[0];
+    }
+
+    $('.blueish').droppable({
+      drop: function( event, ui ) {
+        piece_id = piece_id(ui.draggable[0]);
+        xpos = event.target.attributes['xpos'].value
+        ypos = event.target.attributes['ypos'].value
+        $.ajax({
+          url: `/pieces/${piece_id}?xpos=${xpos}&ypos=${ypos}`,
+          type: 'PUT'
+        });
+        $(`#${ui.draggable[0].id}`).draggable({revert: false});
+      }
+    });
+  <% end %>
+});

@@ -1,12 +1,15 @@
 <h1>Game <%= @game.name %></h1>
 
+<h3><%= @game.status.to_s.titleize %></h3>
+
 <% range = flip_board? ? (0..7).to_a.reverse : (0..7) %>
 <div class='chess-grid mx-auto mt-5'>
   <% range.each do |ypos| %>
     <% range.each do |xpos| %>
-      <div class='full-size drop-target square <%= (ypos + xpos).even? ? 'white' : 'black' %>'
+      <div class='full-size square <%= (ypos + xpos).even? ? 'white' : 'black' %>'
         xpos=<%= xpos %> ypos=<%= ypos %>>
-        <div id='highlight-<%= xpos %>-<%= ypos %>' class='full-size square'>
+        <div id='highlight-<%= xpos %>-<%= ypos %>' class='full-size square highlight'
+          xpos=<%= xpos %> ypos=<%= ypos %>>
           <% current_piece = @game.piece_at(xpos, ypos) %>
           <% if current_piece %>
             <span id='piece-<%= current_piece.id %>' piece_id=<%= current_piece.id %> class='full-size square piece piece-<%= current_piece.color %> 
@@ -24,43 +27,33 @@
 
 <%= link_to 'Forfeit', game_path(@game, forfeit: true), method: :put %>
 
-<!-- Add function to add remove blue highlights to the valid moves
-       of a piece when hovered over -->
-<script>
-  <% @movable_pieces.each do |piece| %>
-    $('#piece-<%= piece.id %>').hover(
-      <% ['addClass', 'removeClass'].each do |function_name| %>
-        function() {
-          <% piece.valid_moves.each do |xpos, ypos| %>
-            $('#highlight-<%= xpos %>-<%= ypos %>').<%= function_name %>('blueish')
-          <% end %>
-        },
-      <% end %>
-    );
-  <% end %>
-</script>
-
 <script type='text/javascript'>
-  $('.movable').draggable({
-    start: function( event, ui ) {
-      piece_id = event.target.attributes['piece_id'].value
-      
-      // Prevents the UI from showing valid moves of other pieces that would
-      //   be hovered over while dragging this piece to the target position
-      $(`#piece-${piece_id}`).css('z-index', '1');
-    },
-    containment: $('.chess-grid')
-  });
+  $(function() {
+    $('.movable').draggable({
+      revert: true,
+      scroll: false,
+      start: function( event, ui ) {
+        piece_id = event.target.attributes['piece_id'].value;
+        $.ajax({ url: `/pieces/${piece_id}/highlight_moves.js` });
+      }
+    });
 
-  $('.drop-target').droppable({
-    drop: function( event, ui ) {
-      id = ui.draggable[0].attributes['piece_id'].value
-      xpos = event.target.attributes['xpos'].value
-      ypos = event.target.attributes['ypos'].value
-      $.ajax({
-        url: `/pieces/${id}?xpos=${xpos}&ypos=${ypos}`,
-        type: 'PUT'
-      });
-    }
+    $('.movable').click(function() {
+      piece_id = this.attributes['piece_id'].value;
+      selected_id = $('.selected')[0] && $('.selected')[0].attributes['piece_id'].value;
+
+      if (selected_id == piece_id) {
+        piece_id = null;
+      }
+
+      $.ajax({ url: `/pieces/${piece_id}/highlight_moves.js` });
+    });
+
+    $(document).keyup(function (event) {
+      // Clear selection when the escape key is pressed
+      if (event.which == 27) {
+        $.ajax({ url: `/pieces/null/highlight_moves.js` });
+      }
+    });
   });
 </script>
