@@ -33,6 +33,9 @@ a {
   height: 100%;
   width: 100%;
 }
+.popover-body {
+  display: flex;
+}
 
 // Chess board styles
 .black {
@@ -40,6 +43,7 @@ a {
 }
 .square.blueish {
   background-color: rgba(153, 153, 255, 0.5);
+  cursor: pointer;
 }
 .chess-grid {
   border: 2px solid #666;
@@ -49,6 +53,10 @@ a {
   grid-template: repeat(8, 1fr) / repeat(8, 1fr);
   height: 500px;
   width: 500px;
+}
+.icons {
+  display: inline-block;
+  font-size: 2.5rem;
 }
 .movable {
   cursor: pointer;
