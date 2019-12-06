@@ -89,7 +89,7 @@ class Piece < ApplicationRecord
   end
 
   def can_move?(user)
-    on_board? && my_turn? && user.id == player_id
+    on_board? && my_turn? && user&.id == player_id
   end
 
   def my_turn?

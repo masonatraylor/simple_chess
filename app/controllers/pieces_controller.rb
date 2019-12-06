@@ -8,6 +8,9 @@ class PiecesController < ApplicationController
     return if missing_pawn_promotion_type?
 
     move_piece if params[:ypos] && params[:xpos] && can_move?
+
+    ActionCable.server.broadcast 'game_channel',
+                                 reload: true
     redirect_to @piece.game
   end
 

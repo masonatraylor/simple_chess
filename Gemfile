@@ -44,6 +44,7 @@ gem 'jquery-ui-rails'
 gem 'popper_js', '~> 1.14.5'
 gem 'rubocop', '~> 0.76.0', require: false
 gem 'simple_form', '~> 5.0.1'
+gem 'redis', '3.3.1'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.3.3'
