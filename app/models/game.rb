@@ -6,6 +6,7 @@ class Game < ApplicationRecord
   has_many :pieces
   belongs_to :user
   enum status: %w[white_turn black_turn white_won black_won stalemate]
+  self.per_page = 15
 
   validates :name, uniqueness: true, length: { minimum: 3, maximum: 60 }
 
