@@ -1,28 +1,34 @@
 <div class="row">
     <div class="col-md-6 border">
         <h3 align="center">All Games:</h3>
-        <div class='easy-col-3'>
+        <div class='easy-col-4'>
             <div>Name</div>
             <div>White player</div>
             <div>Black player</div>
+            <div>Status</div>
             <% @games.each do |game| %>
                 <div><%= link_to game.name, game %></div>
                 <div><%= player_or_join(game, 'white') %></div>
                 <div><%= player_or_join(game, 'black') %></div>
+                <div><%= game.status.to_s.titleize %></div>
             <% end %>
         </div>
+        <%= will_paginate @games, param_name: :all_games_page, class: 'apple-pagination mx-auto my-2' %>
     </div>
     <div class="col-md-6 border">
         <h3 align="center">Open Games:</h3>
-        <div class='easy-col-3'>
+        <div class='easy-col-4'>
             <div>Name</div>
             <div>White player</div>
             <div>Black player</div>
+            <div>Status</div>
             <% @open_games.each do |game| %>
                 <div><%= link_to game.name, game %></div>
                 <div><%= player_or_join(game, 'white') %></div>
                 <div><%= player_or_join(game, 'black') %></div>
+                <div><%= game.status.to_s.titleize %></div>
             <% end %>
         </div>
+        <%= will_paginate @open_games, param_name: :open_games_page, class: 'apple-pagination mx-auto my-2' %>
     </div>
 </div>
