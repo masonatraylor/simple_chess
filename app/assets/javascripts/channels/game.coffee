@@ -6,4 +6,4 @@ App.game = App.cable.subscriptions.create "GameChannel",
     # Called when the subscription has been terminated by the server
 
   received: (data) ->
-    location.reload() if data.reload
+    document.location.reload() if data.reload
