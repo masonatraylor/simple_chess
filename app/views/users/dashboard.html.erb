@@ -1,1 +1,7 @@
 <% provide(:title, 'Dashboard') %>
+
+<div class="col-md-10 border mx-auto mt-5">
+  <h3 align="center">My Games:</h3>
+  <%= render partial: 'games/game_list', locals: { games: @my_games } %>
+  <%= will_paginate @my_games, class: 'apple-pagination mx-auto my-2'  %>
+</div>

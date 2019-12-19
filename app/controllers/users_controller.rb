@@ -3,7 +3,6 @@ class UsersController < ApplicationController
 
   def dashboard
     @user = current_user
-    @games = Game.games_for(@user)
-    
+    @my_games = Game.games_for(@user).paginate(page: params[:page]).order('updated_at DESC')
   end
 end
