@@ -11,6 +11,7 @@ class PiecesController < ApplicationController
 
     ActionCable.server.broadcast 'game_channel',
                                  reload: true
+
     redirect_to @piece.game
   end
 

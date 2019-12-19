@@ -53,6 +53,23 @@ RSpec.describe Game, type: :model do
     end
   end
 
+  context 'game_for checks' do
+    it 'should return a game that a user is in' do
+      white_player = create(:user)
+      black_player = create(:user)
+      random_player = create(:user)
+      game1 = white_player.games.create!(name: 'testa',
+                                         white_player_id: white_player.id,
+                                         black_player_id: black_player.id)
+      game2 = random_player.games.create!(name: 'testb',
+                                          white_player_id: white_player.id,
+                                          black_player_id: black_player.id)
+      expect(Game.games_for(white_player)).to eq([game1, game2])
+      expect(Game.games_for(black_player)).to eq([game1, game2])
+      expect(Game.games_for(random_player)).to eq([])
+    end
+  end
+
   def create_piece_for_game(type, xpos, ypos, color = :white)
     @game.pieces << type.create(x_position: xpos,
                                 y_position: ypos,

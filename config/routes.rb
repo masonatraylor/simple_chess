@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   resources :games, only: %i[new create update show index]
   resources :pieces, only: %i[update]
   get '/pieces/:id/highlight_moves.js', to: 'pieces#highlight_moves'
+  get '/dashboard', to: 'users#dashboard'
 end

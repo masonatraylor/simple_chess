@@ -10,6 +10,10 @@ class Game < ApplicationRecord
 
   validates :name, uniqueness: true, length: { minimum: 3, maximum: 60 }
 
+  def self.games_for(player)
+    where('black_player_id = ? OR white_player_id = ?', player.id, player.id)
+  end
+
   def piece_at(xpos, ypos)
     pieces.filter { |p| p.at_coord?(xpos, ypos) }.first
   end
