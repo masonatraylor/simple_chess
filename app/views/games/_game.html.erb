@@ -1,0 +1,4 @@
+<div><%= link_to game.name, game %></div>
+<div><%= player_or_join(game, 'white') %></div>
+<div><%= player_or_join(game, 'black') %></div>
+<div><%= game.status.to_s.titleize %></div>
