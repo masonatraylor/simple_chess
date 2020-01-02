@@ -1,24 +1,33 @@
-# README
+# Simple Chess
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a simple chess application created with rails 5.2 and Ruby 2.6
 
-Things you may want to cover:
+The game is turn-based and has no time limit on moves. It supports castling and en-passant and automatically detects once a player has been placed in checkmate.
 
-* Ruby version
+## Setup
 
-* System dependencies
+You can install the dependencies by running:
+```sh
+bundle install
+```
 
-* Configuration
+Initialize the database with:
+```sh
+rails db:load
+```
 
-* Database creation
+Subsequently, you can set up a local development server with:
+```sh
+rails server
+```
 
-* Database initialization
+## Tests
+Tests can be run with:
+```sh
+bundle exec rspec
+```
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Alternatively, you can use guard:
+```sh
+bundle exec guard
+```
