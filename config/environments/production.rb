@@ -1,6 +1,17 @@
 Rails.application.configure do
+
+  ActionMailer::Base.smtp_settings = {
+    address: 'smtp.sendgrid.net',
+    port: '587',
+    authentication: :plain,
+    user_name: ENV['SENDGRID_USERNAME'],
+    password: ENV['SENDGRID_PASSWORD'],
+    domain: 'chess.masontraylor.com',
+    enable_starttls_auto: true
+  }
+
   # Settings specified here will take precedence over those in config/application.rb.
-  config.action_mailer.default_url_options = { host: 'masons-simple-chess.herokuapp.com' }
+  config.action_mailer.default_url_options = { host: 'chess.masontraylor.com' }
 
   # Code is not reloaded between requests.
   config.cache_classes = true
