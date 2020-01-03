@@ -7,28 +7,42 @@ The game is turn-based and has no time limit on moves. It supports castling and 
 ## Setup
 
 You can install the dependencies by running:
+
 ```sh
 bundle install
 ```
 
 Initialize the database with:
+
 ```sh
 rails db:create
 rails db:schema:load
 ```
 
 ## Tests
+
 Tests can be run with:
+
 ```sh
 bundle exec rspec
 ```
 
 Alternatively, you can use guard:
+
 ```sh
 bundle exec guard
 ```
 
 You can additionally run Rubocop to check for style errors:
+
 ```sh
 bundle exec rubocop
+```
+
+## Local Server
+
+Run a local development server with:
+
+```sh
+rails server
 ```
