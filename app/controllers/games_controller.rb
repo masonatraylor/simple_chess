@@ -49,8 +49,10 @@ class GamesController < ApplicationController
   end
 
   def index
-    @games = Game.paginate(page: params[:all_games_page]).order('updated_at DESC')
-    @open_games = Game.available.paginate(page: params[:open_games_page]).order('updated_at DESC')
+    @games = Game.paginate(page: params[:all_games_page])
+                 .order('updated_at DESC')
+    @open_games = Game.available.paginate(page: params[:open_games_page])
+                      .order('updated_at DESC')
   end
 
   private

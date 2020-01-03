@@ -27,7 +27,9 @@ class PiecesController < ApplicationController
   end
 
   def can_move?
-    flash[:alert] << 'This is not your piece!' unless current_user.controls_piece?(@piece)
+    unless current_user.controls_piece?(@piece)
+      flash[:alert] << 'This is not your piece!'
+    end
     flash[:alert] << "It is not this color's turn" unless @piece.my_turn?
     @piece.can_move?(current_user)
   end

@@ -122,7 +122,7 @@ class Piece < ApplicationRecord
 
     begin
       update_attributes(x_position: xpos, y_position: ypos)
-      target&.update_attributes(x_position: nil, y_position: nil)
+      target&.remove!
       game.pieces.reload
       return game.check?(color)
     ensure
