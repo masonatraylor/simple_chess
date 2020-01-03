@@ -1,4 +1,4 @@
-<div><%= link_to game.name, game %></div>
-<div><%= player_or_join(game, 'white') %></div>
-<div><%= player_or_join(game, 'black') %></div>
-<div><%= game.status.to_s.titleize %></div>
+<div class='text-truncate'><%= link_to game.name, game %></div>
+<div class='text-truncate'><%= player_or_join(game, 'white') %></div>
+<div class='text-truncate'><%= player_or_join(game, 'black') %></div>
+<div class='text-truncate'><%= game.status.to_s.titleize %></div>

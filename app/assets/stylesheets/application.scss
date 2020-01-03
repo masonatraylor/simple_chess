@@ -27,7 +27,7 @@ a {
 // Misc styling
 .easy-col-4 {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 25%);
 }
 .full-size {
   height: 100%;
