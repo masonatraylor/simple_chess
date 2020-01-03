@@ -15,5 +15,4 @@ class User < ApplicationRecord
   def controls_piece?(piece)
     id == piece.player_id
   end
-
 end

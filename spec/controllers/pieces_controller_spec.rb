@@ -15,7 +15,7 @@ RSpec.describe PiecesController, type: :controller do
   end
 
   context 'pawn promotion checks' do
-    it 'should only allow white pawns to move onto the last row with promotions' do
+    it 'should allow pawns to move onto the last row with promotion' do
       sign_in @user1
       piece = create_piece_for_game(Pawn, 4, 1)
       id = piece.id
@@ -23,13 +23,18 @@ RSpec.describe PiecesController, type: :controller do
       put :update, format: :xhr, params: { id: id, xpos: 4, ypos: 0 }
       expect(piece.reload.y_position).to eq(1)
 
-      put :update, format: :xhr, params: { id: id, xpos: 4, ypos: 0, promotion: 'Queen' }
+      put :update,
+          format: :xhr,
+          params: { id: id,
+                    xpos: 4,
+                    ypos: 0,
+                    promotion: 'Queen' }
       piece = Piece.find(id)
       expect(piece.y_position).to eq(0)
       expect(piece.type == 'Queen')
     end
 
-    it 'should not allow black pawns to move onto the last row without promoting' do
+    it 'should not allow pawns to move to the last row without promotion' do
       sign_in @user2
       @game.change_turn!
       piece = create_piece_for_game(Pawn, 4, 6, :black)
@@ -38,7 +43,12 @@ RSpec.describe PiecesController, type: :controller do
       put :update, format: :xhr, params: { id: id, xpos: 4, ypos: 7 }
       expect(piece.reload.y_position).to eq(6)
 
-      put :update, format: :xhr, params: { id: id, xpos: 4, ypos: 7, promotion: 'Rook' }
+      put :update,
+          format: :xhr,
+          params: { id: id,
+                    xpos: 4,
+                    ypos: 7,
+                    promotion: 'Rook' }
       piece = Piece.find(id)
       expect(piece.y_position).to eq(7)
       expect(piece.type).to eq('Rook')
@@ -49,7 +59,12 @@ RSpec.describe PiecesController, type: :controller do
       piece = create_piece_for_game(Pawn, 4, 1)
       id = piece.id
 
-      put :update, format: :xhr, params: { id: id, xpos: 4, ypos: 7, promotion: 'King' }
+      put :update,
+          format: :xhr,
+          params: { id: id,
+                    xpos: 4,
+                    ypos: 7,
+                    promotion: 'King' }
       piece = Piece.find(id)
       expect(piece.reload.y_position).to eq(1)
       expect(piece.type).to eq('Pawn')
@@ -60,7 +75,12 @@ RSpec.describe PiecesController, type: :controller do
       piece = create_piece_for_game(Pawn, 4, 1)
       id = piece.id
 
-      put :update, format: :xhr, params: { id: id, xpos: 4, ypos: 7, promotion: 'Pawn' }
+      put :update,
+          format: :xhr,
+          params: { id: id,
+                    xpos: 4,
+                    ypos: 7,
+                    promotion: 'Pawn' }
       piece = Piece.find(id)
       expect(piece.reload.y_position).to eq(1)
     end
@@ -70,7 +90,12 @@ RSpec.describe PiecesController, type: :controller do
       piece = create_piece_for_game(Pawn, 4, 3)
       id = piece.id
 
-      put :update, format: :xhr, params: { id: id, xpos: 4, ypos: 2, promotion: 'Rook' }
+      put :update,
+          format: :xhr,
+          params: { id: id,
+                    xpos: 4,
+                    ypos: 2,
+                    promotion: 'Rook' }
       piece = Piece.find(id)
       expect(piece.reload.y_position).to eq(3)
       expect(piece.type).to eq('Pawn')
@@ -81,7 +106,12 @@ RSpec.describe PiecesController, type: :controller do
       piece = create_piece_for_game(Pawn, 4, 3)
       id = piece.id
 
-      put :update, format: :xhr, params: { id: id, xpos: 4, ypos: 2, promotion: 'rook' }
+      put :update,
+          format: :xhr,
+          params: { id: id,
+                    xpos: 4,
+                    ypos: 2,
+                    promotion: 'rook' }
       piece = Piece.find(id)
       expect(piece.reload.y_position).to eq(3)
       expect(piece.type).to eq('Pawn')
