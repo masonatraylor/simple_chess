@@ -7,6 +7,7 @@ FactoryBot.define do
       "test#{n}@friend.gov"
     end
     password { 'friends4ever' }
+    confirmed_at { DateTime.now }
 
     factory :user1 do
       email { 'test@user.gov' }
