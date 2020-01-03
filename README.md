@@ -27,3 +27,8 @@ Alternatively, you can use guard:
 ```sh
 bundle exec guard
 ```
+
+You can additionally run Rubocop to check for style errors:
+```sh
+bundle exec rubocop
+```
