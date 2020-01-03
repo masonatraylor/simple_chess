@@ -11,9 +11,10 @@ class GamesController < ApplicationController
     @game = Game.new(game_params)
     current_user.games << @game
     join(@game, params[:join])
-    return redirect_to @game if @game.save
+    return render :new unless @game.save
 
-    render :new
+    @game.populate!(params[:type])
+    redirect_to @game
   end
 
   def update
@@ -25,16 +26,10 @@ class GamesController < ApplicationController
 
   def join(game, color = 'black')
     if color == 'black'
-      return if game.black_player_id
-
-      game.black_player_id = current_user.id
+      game.black_player_id = current_user.id unless game.black_player_id
     else
-      return if game.white_player_id
-
-      game.white_player_id = current_user.id
+      game.white_player_id = current_user.id unless game.white_player_id
     end
-
-    game.populate! if game.white_player_id && game.black_player_id
 
     game.save
   end
