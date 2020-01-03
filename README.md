@@ -13,12 +13,8 @@ bundle install
 
 Initialize the database with:
 ```sh
-rails db:load
-```
-
-Subsequently, you can set up a local development server with:
-```sh
-rails server
+rails db:create
+rails db:schema:load
 ```
 
 ## Tests
