@@ -62,29 +62,34 @@ RSpec.describe GamesController, type: :controller do
     it 'should populate the game in order for Classic Chess' do
       user1 = create(:user1)
       sign_in(user1)
-      post :create, params: { game: { name: 'Test' }, join: 'white', type: 'classic' }
+      post :create, params: { game: { name: 'Test' }, type: 'classic' }
       game = user1.games.last
       piece_order = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
 
       8.times do |x|
-        expect(game.piece_at(x, 0).is_a?(piece_order[x])).to eq true
+        expect(game.piece_at(x, 7).is_a?(piece_order[x])).to eq true
       end
     end
 
     it 'should populate the game randomly for Chess 960' do
       user1 = create(:user1)
       sign_in(user1)
-      post :create,
-           params: { game: { name: 'Test' },
-                     join: 'white',
-                     type: '960' }
 
-      game = user1.games.last
       piece_order = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
-
       all_match = true
-      8.times do |x|
-        all_match &= game.piece_at(x, 0).is_a?(piece_order[x])
+
+      # Test multiple times to prevent false negatives
+      20.times do |i|
+        post :create,
+             params: { game: { name: "Test#{i}" },
+                       type: '960' }
+
+        game = user1.games.last
+        8.times do |x|
+          all_match &&= game.piece_at(x, 7).is_a?(piece_order[x])
+        end
+
+        break unless all_match
       end
 
       expect(all_match).to eq false

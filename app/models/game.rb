@@ -81,16 +81,47 @@ class Game < ApplicationRecord
   def populate!(type = 'classic')
     raise 'Game already populated' unless pieces.empty?
 
-    piece_order = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
-    piece_order.shuffle! if type == '960'
+    piece_order = order_for_type(type)
 
-    populate((0..7).to_a.reverse, [7, 6], :white, piece_order)
-    populate((0..7).to_a, [0, 1], :black, piece_order)
+    populate((0..7).to_a.reverse, [7, 6], piece_order, :white)
+    populate((0..7).to_a, [0, 1], piece_order, :black)
   end
 
   private
 
-  def populate(x_coords, y_coords, color = :white, piece_order)
+  def order_for_type(type)
+    case type
+    when '960'
+      random_960_chess_piece_order
+    else
+      classic_order
+    end
+  end
+
+  def classic_order
+    [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
+  end
+
+  def random_960_chess_piece_order
+    loop do
+      order = classic_order.shuffle
+      return order if valid_960_chess_piece_order?(order)
+    end
+  end
+
+  def valid_960_chess_piece_order?(order)
+    bishops_on_opposite_colors?(order) && king_between_rooks?(order)
+  end
+
+  def bishops_on_opposite_colors?(order)
+    order.each_index.select { |i| order[i] == Bishop }.sum.odd?
+  end
+
+  def king_between_rooks?(order)
+    order.select { |c| [King, Rook].include?(c) } == [Rook, King, Rook]
+  end
+
+  def populate(x_coords, y_coords, piece_order, color = :white)
     x_coords.each do |x|
       pieces << piece_order[x].create(white: color == :white,
                                       x_position: x,
