@@ -103,14 +103,15 @@ class Game < ApplicationRecord
   end
 
   def random_960_chess_piece_order
-    loop do
-      order = classic_order.shuffle
-      return order if valid_960_chess_piece_order?(order)
-    end
+    order = classic_order
+    order.shuffle! until valid_960_chess_piece_order?(order)
+    order
   end
 
   def valid_960_chess_piece_order?(order)
-    bishops_on_opposite_colors?(order) && king_between_rooks?(order)
+    order != classic_order &&
+      bishops_on_opposite_colors?(order) &&
+      king_between_rooks?(order)
   end
 
   def bishops_on_opposite_colors?(order)
