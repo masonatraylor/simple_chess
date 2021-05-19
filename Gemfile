@@ -14,7 +14,7 @@ gem 'jquery-rails',        '~> 4.3.5'
 gem 'jquery-ui-rails'
 gem 'pg',                  '>= 0.18', '< 2.0'
 gem 'popper_js',           '~> 1.14.5'
-gem 'puma',                '~> 3.12'
+gem 'puma',                '~> 4.3'
 gem 'rails',               '~> 5.2.3'
 gem 'redis',               '3.3.1'
 gem 'rubocop',             '~> 0.76.0', require: false
